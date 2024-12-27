@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paket Tour ke Bromo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-container label {
+            font-size: 16px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-container input, .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-container button {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #555;
+        }
+        .result {
+            background-color: #fff;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(172, 207, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Paket Tour ke Bromo </h1>
+    <p>Harga mulai dari Rp1.000.000, tergantung jumlah mobil jeep dan pilihan penginapan.</p>
+</header>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Pesan Paket Tour</h2>
+        <label for="jeepCount">Jumlah Mobil Jeep</label>
+        <input type="number" id="jeepCount" min="1" value="1" oninput="calculatePrice()">
+
+        <label for="stayType">Tipe Penginapan</label>
+        <select id="stayType" onchange="calculatePrice()">
+            <option value="regular">Penginapan Biasa (Rp250.000 per malam)</option>
+            <option value="premium">Penginapan Premium (Rp450.000 per malam)</option>
+        </select>
+
+        <label for="nights">Jumlah Malam Menginap</label>
+        <input type="number" id="nights" min="0" value="0" oninput="calculatePrice()">
+
+        <button onclick="calculatePrice()">Hitung Harga</button>
+    </div>
+
+    <div class="result" id="result">
+        <h3>Rincian Harga</h3>
+        <p>Jumlah Mobil Jeep: <span id="jeepResult">1</span></p>
+        <p>Tipe Penginapan: <span id="stayResult">Penginapan Biasa</span></p>
+        <p>Jumlah Malam Menginap: <span id="nightsResult">0</span> malam</p>
+        <p><strong>Total Harga: Rp <span id="totalPrice">1.000.000</span></strong></p>
+    </div>
+</div>
+
+<script>
+    const basePrice = 1000000;
+    const regularStayPrice = 250000;
+    const premiumStayPrice = 450000;
+
+    function calculatePrice() {
+        // Ambil nilai input dari form
+        const jeepCount = parseInt(document.getElementById('jeepCount').value);
+        const stayType = document.getElementById('stayType').value;
+        const nights = parseInt(document.getElementById('nights').value);
+
+        // Hitung harga dasar berdasarkan jumlah jeep
+        let totalPrice = basePrice * jeepCount;
+
+        // Hitung biaya penginapan
+        let stayPrice = 0;
+        if (stayType === 'regular') {
+            stayPrice = regularStayPrice;
+            document.getElementById('stayResult').textContent = 'Penginapan Biasa';
+        } else {
+            stayPrice = premiumStayPrice;
+            document.getElementById('stayResult').textContent = 'Penginapan Premium';
+        }
+
+        // Tambahkan biaya menginap
+        totalPrice += stayPrice * nights;
+
+        // Update tampilan hasil
+        document.getElementById('jeepResult').textContent = jeepCount;
+        document.getElementById('nightsResult').textContent = nights;
+        document.getElementById('totalPrice').textContent = totalPrice.toLocaleString();
+    }
+
+    // Inisialisasi harga awal
+    calculatePrice();
+</script>
+
+</body>
+</html>
